@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="AnalizadorLexico.jar" size="5607" download="eager" />
+    <jar href="AnalizadorLexico.jar" size="11559" download="eager" />
     <jar href="lib/jflex-1.6.1.jar" size="1050746" download="eager" />
   </resources>
   <application-desc main-class="com.unibe.teoriaCompiladores.analizadorLexico.Main"  name="AnalizadorLexico" >

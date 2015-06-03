@@ -7,6 +7,9 @@
  */
 package com.unibe.teoriaCompiladores.analizadorLexico;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,13 +27,40 @@ public class Analizador {
      * @return expAnalizadas son las expresiones analizadas, es un hashMap que tendrá el mismo orden que las expresiones que están como parámetros
      * @author Lorenzo Alejo y Luis Peralta
     */
-    public static HashMap<String,List<String>> analizarExpresiones(List<String> expresiones){
+    public static HashMap<String,List<String>> analizarExpresiones(List<String> expresiones) throws IOException{
+        
+        //TEMPORAL: metodo para generar AnalizadorJflex
+        generadorLexer();
+        //end: metodo para generar AnalizadorJflex
+        
         HashMap<String, List<String>> expAnalizadas = new HashMap<>();
         String analisis;
         int count = 0;
         for (String expresion: expresiones){
            //TODO: poner la parte a analizar aqui
+            AnalizadorJFlex analizador = new AnalizadorJFlex(new StringReader(expresion));
+            for(int i=0;i<expresion.length();i++){
+                if(expresion.charAt(i)>='0' && expresion.charAt(i)<='9'){
+                        AnalizadorJFlex analizer = new AnalizadorJFlex(new StringReader(String.valueOf(expresion.charAt(i))));
+                        //TODO: reemplazar esto y retornarlo en el hashmap
+                        System.out.println(analizer.yylex());
+                }
+                if(expresion.charAt(i)=='+' || expresion.charAt(i)=='-' || expresion.charAt(i)=='*' || expresion.charAt(i)=='/' || expresion.charAt(i)=='^' || expresion.charAt(i)  == '.' || expresion.charAt(i) == ',')
+                {
+                        AnalizadorJFlex analizer = new AnalizadorJFlex(new StringReader(String.valueOf(expresion.charAt(i))));
+                        //TODO: reemplazar esto y retornarlo en el hashmap
+                        System.out.println(analizer.yylex());
+                }
+                if(expresion.charAt(i)==' ')
+                {
+                        AnalizadorJFlex analizer = new AnalizadorJFlex(new StringReader(String.valueOf(expresion.charAt(i))));
+                        //TODO: reemplazar esto y retornarlo en el hashmap
+                        System.out.println(analizer.yylex());
+                }
+            }
             
+            //TODO: reemplazar esto y retornarlo en el hashmap
+            System.out.println("Expresion Regular="+analizador.yylex());
             
             
             //end: poner la parte a analizar aqui
@@ -38,6 +68,19 @@ public class Analizador {
             if (++count == MAX_EXPRESIONES) break;
         }
         return expAnalizadas;
-    }    
+    }
+    
+    /**
+     * Metodo para genera clase para analizador lexico JFlex
+     * Nota: Este metodo solo servirá para generar la última clase a utilizar para analisis, ver "lexer.flex" para referencias
+     * @author Fernando Perez
+    */
+    public static void generadorLexer()
+    {
+        //String os = System.getProperty("os.name");
+        File file = new File("./src/com/unibe/teoriaCompiladores/analizadorLexico/lexer.flex");
+        jflex.Main.generate(file);
+	//JFlex.Main.generate(file);
+    }
     
 }
